@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
  */
 public class BaseController {
 
-  protected User getUser() {
-    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-    HttpServletRequest request = requestAttributes.getRequest();
-    HttpSession session = request.getSession();
-    User user = (User) session.getAttribute("_user");
-    return user;
-  }
+    protected User getUser() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = requestAttributes.getRequest();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("_user");
+        return user;
+    }
 }

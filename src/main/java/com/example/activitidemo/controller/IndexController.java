@@ -1,5 +1,6 @@
 package com.example.activitidemo.controller;
 
+import com.example.activitidemo.model.TypeEnum;
 import com.example.activitidemo.model.User;
 import com.example.activitidemo.service.UserService;
 import org.activiti.engine.TaskService;
@@ -17,52 +18,52 @@ import java.util.List;
 @Controller
 public class IndexController extends BaseController {
 
-  @Autowired
-  private TaskService taskService;
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private UserService userService;
 
-  @GetMapping("/")
-  public String index() {
-    return "index";
-  }
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
-  @GetMapping("/myTasks")
-  public String myTasks(Model model) {
-    List<Task> tasks = taskService.createTaskQuery().taskAssignee(getUser().getUsername()).list();
-    model.addAttribute("tasks", tasks);
-    return "myTasks";
-  }
+    @GetMapping("/myTasks")
+    public String myTasks(Model model) {
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee(getUser().getUsername()).list();
+        model.addAttribute("tasks", tasks);
+        return "myTasks";
+    }
 
-  @GetMapping("/login")
-  public String login() {
-    return "login";
-  }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
 
-  @PostMapping("/login")
-  @ResponseBody
-  public Object login(User user, HttpSession session) {
-    user = userService.login(user);
-    session.setAttribute("_user", user);
-    return user;
-  }
+    @PostMapping("/login")
+    @ResponseBody
+    public Object login(User user, HttpSession session) {
+        user = userService.login(user);
+        session.setAttribute("_user", user);
+        return user;
+    }
 
-  //  @GetMapping("/register")
-  //  public String register() {
-  //    return "register";
-  //  }
+    //  @GetMapping("/register")
+    //  public String register() {
+    //    return "register";
+    //  }
 
-  //  @PostMapping("/register")
-  //  public Object register(User user, HttpSession session) {
-  //    user = userService.save(user);
-  //    session.setAttribute("_user", user);
-  //    return user;
-  //  }
+    //  @PostMapping("/register")
+    //  public Object register(User user, HttpSession session) {
+    //    user = userService.save(user);
+    //    session.setAttribute("_user", user);
+    //    return user;
+    //  }
 
-  @GetMapping("/logout")
-  public String logout(HttpSession session) {
-    session.removeAttribute("_user");
-    return "redirect:/";
-  }
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("_user");
+        return "redirect:/";
+    }
 }

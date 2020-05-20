@@ -19,38 +19,38 @@ import java.util.List;
 @RequestMapping("/workflow")
 public class WorkFlowController extends BaseController {
 
-  @Autowired
-  private RuntimeService runtimeService;
-  @Autowired
-  private TaskService taskService;
-  @Autowired
-  private IdentityService identityService;
-  @Autowired
-  private RepositoryService repositoryService;
-  @Autowired
-  private ProcessEngine processEngine;
-  @Autowired
-  private HistoryService historyService;
+    @Autowired
+    private RuntimeService runtimeService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private IdentityService identityService;
+    @Autowired
+    private RepositoryService repositoryService;
+    @Autowired
+    private ProcessEngine processEngine;
+    @Autowired
+    private HistoryService historyService;
 
-  @GetMapping("/processDeploys")
-  public String processDeploys(Model model) {
-    List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
-    model.addAttribute("deployments", deployments);
-    return "workflow/processDeploys";
-  }
+    @GetMapping("/processDeploys")
+    public String processDeploys(Model model) {
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
+        model.addAttribute("deployments", deployments);
+        return "workflow/processDeploys";
+    }
 
-  @GetMapping("/processDefinitions")
-  public String processDefinitions(Model model) {
-    List<ProcessDefinition> definitions = repositoryService.createProcessDefinitionQuery().list();
-    model.addAttribute("definitions", definitions);
-    return "workflow/processDefinitions";
-  }
+    @GetMapping("/processDefinitions")
+    public String processDefinitions(Model model) {
+        List<ProcessDefinition> definitions = repositoryService.createProcessDefinitionQuery().list();
+        model.addAttribute("definitions", definitions);
+        return "workflow/processDefinitions";
+    }
 
-  @GetMapping("/processInstances")
-  public String processInstances(Model model) {
-    List<ProcessInstance> instances = runtimeService.createProcessInstanceQuery().list();
-    model.addAttribute("instances", instances);
-    return "workflow/processInstances";
-  }
+    @GetMapping("/processInstances")
+    public String processInstances(Model model) {
+        List<ProcessInstance> instances = runtimeService.createProcessInstanceQuery().list();
+        model.addAttribute("instances", instances);
+        return "workflow/processInstances";
+    }
 
 }

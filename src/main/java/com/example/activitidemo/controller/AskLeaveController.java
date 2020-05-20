@@ -1,7 +1,9 @@
 package com.example.activitidemo.controller;
 
 import com.example.activitidemo.model.AskLeave;
+import com.example.activitidemo.model.TypeEnum;
 import com.example.activitidemo.service.AskLeaveService;
+import lombok.RequiredArgsConstructor;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -23,73 +25,75 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/askLeave")
+@RequiredArgsConstructor(onConstructor_=  @Autowired)
 public class AskLeaveController extends BaseController {
 
-  @Autowired
-  private AskLeaveService askLeaveService;
-  @Autowired
-  private RuntimeService runtimeService;
-  @Autowired
-  private TaskService taskService;
-  @Autowired
-  private HistoryService historyService;
+    private final AskLeaveService askLeaveService;
 
-  @GetMapping("/list")
-  public String list(Model model) {
-    List<Map<String, Object>> list = new ArrayList<>();
-    List<AskLeave> askLeaves = askLeaveService.findByUser(getUser());
-    for (AskLeave askLeave : askLeaves) {
-      Map<String, Object> map = new HashMap<>();
-      map.put("askLeave", askLeave);
-      // 查询历史实例
-      HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-          .processInstanceBusinessKey(String.valueOf(askLeave.getId())).singleResult();
-      if (historicProcessInstance != null) {
-        List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
-            .processInstanceBusinessKey(String.valueOf(askLeave.getId())).list();
-        if (!historicTaskInstances.isEmpty()) {
-          List<Comment> comments = new ArrayList<>();
-          for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
-            comments.addAll(taskService.getTaskComments(historicTaskInstance.getId()));
-          }
-          map.put("comments", comments);
+    private final RuntimeService runtimeService;
+
+    private final TaskService taskService;
+
+    private final HistoryService historyService;
+
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        List<AskLeave> askLeaves = askLeaveService.findByUser(getUser());
+        for (AskLeave askLeave : askLeaves) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("askLeave", askLeave);
+            // 查询历史实例
+            HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                    .processInstanceBusinessKey(String.valueOf(askLeave.getId())).singleResult();
+            if (historicProcessInstance != null) {
+                List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
+                        .processInstanceBusinessKey(String.valueOf(askLeave.getId())).list();
+                if (!historicTaskInstances.isEmpty()) {
+                    List<Comment> comments = new ArrayList<>();
+                    for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
+                        comments.addAll(taskService.getTaskComments(historicTaskInstance.getId()));
+                    }
+                    map.put("comments", comments);
+                }
+            }
+            list.add(map);
         }
-      }
-      list.add(map);
+        model.addAttribute("askLeaves", list);
+        model.addAttribute("_type", TypeEnum.values());
+        return "myAskLeaves";
     }
-    model.addAttribute("askLeaves", list);
-    return "myAskLeaves";
-  }
 
-  @PostMapping("/add")
-  @ResponseBody
-  public Object add(AskLeave askLeave) {
-    askLeave.setUser(getUser());
-    askLeave.setInTime(new Date());
-    return askLeaveService.save(askLeave);
-  }
+    @PostMapping("/add")
+    @ResponseBody
+    public Object add(AskLeave askLeave) {
+        askLeave.setUser(getUser());
+        askLeave.setInTime(new Date());
+        return askLeaveService.save(askLeave);
+    }
 
-  @PostMapping("/commit")
-  @ResponseBody
-  public Object commit(Integer id) {
-    AskLeave askLeave = askLeaveService.findById(id);
-    Map<String, Object> variables = new HashMap<>();
-    variables.put("username", getUser().getUsername());
-    variables.put("pass", "1");
-    // 启动流程
-    ProcessInstance instance = runtimeService.startProcessInstanceByKey("AskLeave", String.valueOf(id), variables);
-    Task task = taskService.createTaskQuery().processInstanceId(instance.getId()).singleResult();
-    // 增加批注
-    Authentication.setAuthenticatedUserId(getUser().getUsername());
-    taskService.addComment(task.getId(), instance.getId(), "[提交请假]");
-    // 自己的任务自动完成
-    variables.put("username", askLeave.getUser().getLeader().getUsername());
-    taskService.complete(task.getId(), variables);
-    // 更改请假状态
-    askLeave.setStatus("提交");
-    askLeaveService.save(askLeave);
-    return true;
-  }
+    @PostMapping("/commit")
+    @ResponseBody
+    public Object commit(Integer id) {
+        AskLeave askLeave = askLeaveService.findById(id);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("username", getUser().getUsername());
+        variables.put("pass", "1");
+        // 启动流程
+        ProcessInstance instance = runtimeService.startProcessInstanceByKey("Test", String.valueOf(id), variables);
+//        ProcessInstance instance = runtimeService.startProcessInstanceByKey("AskLeave", String.valueOf(id), variables);
+        Task task = taskService.createTaskQuery().processInstanceId(instance.getId()).singleResult();
+        // 增加批注
+        Authentication.setAuthenticatedUserId(getUser().getUsername());
+        taskService.addComment(task.getId(), instance.getId(), "[提交请假]");
+        // 自己任务自动完成
+        variables.put("username", askLeave.getUser().getLeader().getUsername());
+        taskService.complete(task.getId(), variables);
+        // 更改请假状态
+        askLeave.setStatus("提交");
+        askLeaveService.save(askLeave);
+        return true;
+    }
 
 
 }

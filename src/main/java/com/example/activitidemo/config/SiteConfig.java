@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-/**
- * Created by tomoya at 2019/4/22
- */
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "site")

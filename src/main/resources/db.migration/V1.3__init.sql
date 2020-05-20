@@ -9,8 +9,9 @@ CREATE TABLE `ask_leave` (
   `description` varchar(16) DEFAULT NULL COMMENT '描述',
   `in_time` datetime DEFAULT NULL COMMENT '提交时间',
   `day` smallint DEFAULT NULL,
+  `type` bit DEFAULT NULL COMMENT '申请类型',
   `status` varchar(16) DEFAULT NULL,
-  `user_id` int(20) comment '用户'
+  `user_id` int(20) comment '上级用户',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
