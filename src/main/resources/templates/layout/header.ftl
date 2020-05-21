@@ -22,7 +22,7 @@
           </#if>
           <#if _user?? && _user.username != "admin">
             <li <#if page_tab == 'myTasks'>class="active"</#if>>
-              <a href="/task/list">我的任务</a>
+              <a href="/task/list">我的驳回</a>
             </li>
           </#if>
           <#if _user?? && _user.rank == "管理员">

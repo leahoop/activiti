@@ -28,14 +28,13 @@
         <button class="btn btn-xs btn-primary" onclick="review('${item.task.id}')">处理</button>&nbsp;
         <button class="btn btn-xs btn-info" onclick="showTaskProcessImage(${item.task.id})">显示流程图</button>
         <div class="hidden" id="taskProcessTable_${item.task.id}">
-          <h4>请假信息</h4>
+          <h4>申请信息</h4>
           <table class="table table-bordered table-hover">
             <thead>
             <tr>
-              <th>请假人</th>
+              <th>申请人</th>
               <th>标题</th>
               <th>描述</th>
-              <th>天数</th>
               <th>时间</th>
             </tr>
             </thead>
@@ -44,7 +43,6 @@
               <td>${item.askLeave.user.username}</td>
               <td>${item.askLeave.title!}</td>
               <td>${item.askLeave.description!}</td>
-              <td>${item.askLeave.day!}</td>
               <td>${item.askLeave.inTime?string('yyyy-MM-dd HH:mm:ss')}</td>
             </tr>
             </tbody>
@@ -91,7 +89,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">审批请假</h4>
+          <h4 class="modal-title">审批</h4>
         </div>
         <div class="modal-body">
           <form action="" onsubmit="return;" id="form" method="post" role="form">

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   jpa:
     generate-ddl: false
@@ -7,11 +10,10 @@ spring:
       ddl-auto: none
 
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/work?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&nullCatalogMeansCurrent=true
-    username: root
-    password: root
+    url: jdbc:h2:mem:acti;
+    username: sa
+    password:
     type: com.alibaba.druid.pool.DruidDataSource    # 使用阿里druid连接池
-    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     druid:
       min-idle: 2
       initial-size: 5
@@ -19,26 +21,12 @@ spring:
       max-wait: 5000
       validation-query: select '1' from dual
 
-  activiti:
-    database-schema-update: true
-
-#  h2:
-#    console:
-#      enabled: true
-#      # 映射h2
-#      path: /h2
+  h2:
+    console:
+      enabled: true
+      # 映射h2
+      path: /h2
 
   flyway:
-    check-location: false
     clean-on-validation-error: true # 仅限开发环境使用
-    locations: classpath:/db/migration
-
-site:
-  ranks: ["员工", "部门经理", "总经理"]
-
-
-
-
-
-
-
+    locations: classpath:/migration
