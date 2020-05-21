@@ -3,7 +3,7 @@
   <process id="Test" isClosed="false" isExecutable="true" name="学生助学申请" processType="None">
     <startEvent id="_2" name="开始"/>
     <userTask activiti:assignee="${username}" activiti:exclusive="true" id="_3" name="申请"/>
-    <userTask activiti:assignee="school" activiti:exclusive="true" id="_4" name="领导审批"/>
+    <userTask activiti:assignee="${username}" activiti:exclusive="true" id="_4" name="助学金/奖学金审批"/>
     <sequenceFlow id="_5" sourceRef="_2" targetRef="_3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass == "1"}]]></conditionExpression>
     </sequenceFlow>
@@ -45,7 +45,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="_2" targetElement="_3">
-        <di:waypoint x="506.0" y="207.0"/>
+        <di:waypoint x="506.0" y="192.0"/>
         <di:waypoint x="506.0" y="235.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>

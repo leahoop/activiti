@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav">
           <#if _user?? && _user.rank == "员工">
             <li <#if page_tab == 'myAskLeaves'>class="active"</#if>>
-              <a href="/askLeave/list">我的请假</a>
+              <a href="/askLeave/list">我的申请</a>
             </li>
           </#if>
           <#if _user?? && _user.username != "admin">
