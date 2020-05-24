@@ -5,10 +5,12 @@ import com.example.activitidemo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by tomoya at 2019/4/22
  */
 public interface AskLeaveRepository extends JpaRepository<AskLeave, Integer> {
   List<AskLeave> findByUser(User user);
+  Optional<AskLeave> findByTaskId(String taskId);
 }

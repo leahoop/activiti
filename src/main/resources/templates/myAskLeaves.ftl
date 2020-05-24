@@ -71,25 +71,56 @@
         </tbody>
     </table>
 
+<#--    <div class="modal fade" id="modal-id">-->
+<#--        <div class="modal-dialog">-->
+<#--            <div class="modal-content">-->
+<#--                <div class="modal-header">-->
+<#--                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+<#--                    <h4 class="modal-title">新增申请</h4>-->
+<#--                </div>-->
+<#--                <div class="modal-body">-->
+<#--                    <form action="" onsubmit="return;" id="form" method="post" role="form">-->
+
+<#--                        <div class="form-group">-->
+<#--                            <label for="">标题</label>-->
+<#--                            <input type="text" class="form-control" name="" id="title" placeholder="标题">-->
+<#--                        </div>-->
+<#--                        <div class="form-group">-->
+<#--                            <label for="">描述</label>-->
+<#--                            <input type="text" class="form-control" name="" id="description" placeholder="描述">-->
+<#--                        </div>-->
+
+<#--                        <div class="form-group">-->
+<#--                            <label for="">申请类型：</label>-->
+<#--                            <select id="select_type" name="select_type">-->
+<#--                                <option value="">---请选择---</option>-->
+<#--                                <#list _type as type>-->
+<#--                                    <option value="${type.code}">${type.value}</option>-->
+<#--                                </#list>-->
+<#--                            </select>-->
+<#--                        </div>-->
+
+<#--                    </form>-->
+<#--                </div>-->
+<#--                <div class="modal-footer">-->
+<#--                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+<#--                    <button type="button" id="btn" class="btn btn-primary">提交</button>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </div>-->
+<#--    </div>-->
+
     <div class="modal fade" id="modal-id">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">新增申请</h4>
                 </div>
+
                 <div class="modal-body">
-                    <form action="" onsubmit="return;" id="form" method="post" role="form">
 
-                        <div class="form-group">
-                            <label for="">标题</label>
-                            <input type="text" class="form-control" name="" id="title" placeholder="标题">
-                        </div>
-                        <div class="form-group">
-                            <label for="">描述</label>
-                            <input type="text" class="form-control" name="" id="description" placeholder="描述">
-                        </div>
-
+                    <form action="" role="form" id="form" class="form-inline" onsubmit="return;">
                         <div class="form-group">
                             <label for="">申请类型：</label>
                             <select id="select_type" name="select_type">
@@ -100,6 +131,132 @@
                             </select>
                         </div>
 
+                        <h4>本人情况</h4>
+                        <div style="margin-left: 20px;border: 2px">
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="name">姓名：</label>
+                                    <input type="text" class="form-control" id="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">性别：</label>
+                                    <input type="text" class="form-control" id="sex">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">出生年月：</label>
+                                    <input type="text" class="form-control" id="birthday">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="name">民族：</label>
+                                    <input type="text" class="form-control" id="nation">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">政治面貌：</label>
+                                    <input type="text" class="form-control" id="politics">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">入学时间：</label>
+                                    <input type="text" class="form-control" id="enrollmentTime">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="name">身份证：</label>
+                                    <input type="text" class="form-control" id="idCard">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">联系电话：</label>
+                                    <input type="text" class="form-control" id="phone">
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group">
+                                    <label for="name">大学：</label>
+                                    <input type="text" class="form-control" id="university">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">学院：</label>
+                                    <input type="text" class="form-control" id="college">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">系别：</label>
+                                    <input type="text" class="form-control" id="dept">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">班级：</label>
+                                    <input type="text" class="form-control" id="grade"">
+                                </div>
+                            </div>
+                        </div>
+                        <h4>家庭经济情况</h4>
+                        <div style="margin-left: 20px;border: 2px">
+                            <div class="row">
+
+                                <div class="form-group">
+                                    <label for="name">家庭户口：</label>
+                                    <input type="text" class="form-control" id="residence">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">家庭人口总数：</label>
+                                    <input type="text" class="form-control" id="homeNum">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">家庭总收入：</label>
+                                    <input type="text" class="form-control" id="homeIncome">
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group">
+                                    <label for="name">人均月收入：</label>
+                                    <input type="text" class="form-control" id="monthIncome">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">收入来源：</label>
+                                    <input type="text" class="form-control" id="sourceIncome">
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group">
+                                    <label for="name">家庭住址：</label>
+                                    <input type="text" class="form-control" id="addr">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">邮政编码：</label>
+                                    <input type="text" class="form-control" id="postalCode">
+                                </div>
+                            </div>
+                        </div>
+                        <#--                        <h4>家庭成员情况</h4>-->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                    <textarea class="form-control" rows="4" id="achievement"
+                                              placeholder="学习成绩"></textarea>
+                                <textarea class="form-control" rows="4" id="reason" placeholder="申请理由"></textarea>
+
+                            </div>
+                        </div>
+                        <#--                        <div class="row">-->
+                        <#--                            <label class="col-sm-2 control-label" for="name">申请理由</label>-->
+                        <#--                            <div class="col-sm-12">-->
+                        <#--                                <textarea class="form-control" rows="3" id="reason"></textarea>-->
+                        <#--                            </div>-->
+                        <#--                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -113,16 +270,55 @@
     <script>
 
         $("#btn").click(function () {
-            var title = $("#title").val();
             var description = $("#description").val();
-            var day = $("#day").val();
             var type = $("#select_type").val();
+            var name = $("#name").val();
+            var sex = $("#sex").val();
+            var birthday = $("#birthday").val();
+            var nation = $("#nation").val();
+            var politics = $("#politics").val();
+            var enrollmentTime = $("#enrollmentTime").val();
+            var idCard = $("#idCard").val();
+            var phone = $("#phone").val();
+            var university = $("#university").val();
+            var college = $("#college").val();
+            var dept = $("#dept").val();
+            var grade = $("#grade").val();
+            var residence = $("#residence").val();
+            var homeNum = $("#homeNum").val();
+            var homeIncome = $("#homeIncome").val();
+            var monthIncome = $("#monthIncome").val();
+            var sourceIncome = $("#sourceIncome").val();
+            var addr = $("#addr").val();
+            var postalCode = $("#postalCode").val();
+            var achievement = $("#achievement").val();
+            var reason = $("#reason").val();
             $.post("/askLeave/add", {
-                title: title,
                 type: type,
+                name: name,
+                sex: sex,
+                birthday: birthday,
+                nation: nation,
+                politics: politics,
+                enrollmentTime: enrollmentTime,
+                idCard: idCard,
+                phone: phone,
+                university: university,
+                college: college,
+                dept: dept,
+                grade: grade,
+                residence: residence,
+                homeNum: homeNum,
+                homeIncome: homeIncome,
+                monthIncome: monthIncome,
+                sourceIncome: sourceIncome,
+                addr: addr,
+                postalCode: postalCode,
+                achievement: achievement,
                 description: description,
-                status: '创建',
-                day: day
+                reason: reason,
+                title: "申请助学金",
+                status: '创建'
             }, function () {
                 window.location.reload();
             })

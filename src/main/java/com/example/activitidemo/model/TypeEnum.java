@@ -1,5 +1,10 @@
 package com.example.activitidemo.model;
 
+import com.sun.deploy.cache.BaseLocalApplicationProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public enum  TypeEnum {
 
     SCHOLARSHIP(1, "奖学金"),
@@ -11,6 +16,18 @@ public enum  TypeEnum {
     TypeEnum(Integer code, String value) {
         this.code = code;
         this.value = value;
+    }
+
+    static Map<Integer, TypeEnum> codeMap = new HashMap<>();
+
+    static {
+        for (TypeEnum type : TypeEnum.values()) {
+            codeMap.put(type.getCode(), type);
+        }
+    }
+
+    public static TypeEnum valueOf(Integer value) {
+        return codeMap.get(value);
     }
 
     public Integer getCode() {

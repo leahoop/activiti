@@ -1,7 +1,9 @@
 package com.example.activitidemo.controller;
 
 import com.example.activitidemo.model.AskLeave;
+import com.example.activitidemo.model.TaskParams;
 import com.example.activitidemo.service.AskLeaveService;
+import com.example.activitidemo.service.RecordService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.identity.Authentication;
@@ -21,10 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya at 2019/4/22
@@ -48,6 +47,10 @@ public class TaskController extends BaseController {
     @Autowired
     private AskLeaveService askLeaveService;
 
+    @Autowired
+    private RecordService recordService;
+
+
     @GetMapping("/list")
     public String list(Model model) {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -67,6 +70,9 @@ public class TaskController extends BaseController {
             map.put("askLeave", askLeave);
             // 查询批注信息
             List<Comment> comments = taskService.getProcessInstanceComments(task.getProcessInstanceId());
+            recordService.findById(askLeave.getRecordId()).ifPresent(e -> {
+                map.put("record", e);
+            });
             map.put("comments", comments);
             list.add(map);
         }
@@ -74,9 +80,20 @@ public class TaskController extends BaseController {
         return "myTasks";
     }
 
+
+    @GetMapping("record")
+    public AskLeave getRecord(String taskId) {
+        Optional<AskLeave> askLeave = askLeaveService.findByTaskId(taskId);
+        return askLeave.orElse(null);
+    }
+
     @PostMapping("/completeTask")
     @ResponseBody
-    public Object completeTask(String taskId, String content, String pass, String giveup) {
+    public Object completeTask(TaskParams taskParams) {
+        String taskId = taskParams.getTaskId();
+        String giveup = taskParams.getGiveup();
+        String content = taskParams.getContent();
+        String pass = taskParams.getPass();
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         // 拿到请假记录的id
@@ -104,11 +121,20 @@ public class TaskController extends BaseController {
         taskService.complete(taskId, variables);
         // 判断流程是否走完 重新获取一次流程实例，如果为空 则表示流程结束了
         instance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        AskLeave askLeave = askLeaveService.findById(askLeaveId);
         if (instance == null) {
             // 更新请假状态
-            AskLeave askLeave = askLeaveService.findById(askLeaveId);
             askLeave.setStatus(StringUtils.isEmpty(giveup) ? "通过" : giveup);
             askLeaveService.save(askLeave);
+        }else {
+            recordService.findById(askLeave.getRecordId()).ifPresent(e -> {
+                e.setAchievement(taskParams.getAchievement());
+                e.setReason(taskParams.getReason());
+                e.setAchievement(taskParams.getAchievement());
+                e.setReason(taskParams.getReason());
+                e.setContent(taskParams.getContent());
+                recordService.save(e);
+            });
         }
         return true;
     }

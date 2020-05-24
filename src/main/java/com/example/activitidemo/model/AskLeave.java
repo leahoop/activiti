@@ -30,6 +30,10 @@ public class AskLeave implements Serializable {
     // 状态：创建, 提交, 放弃, 通过, 拒绝
     private String status;
 
+    private Integer recordId;
+
+    private String taskId;
+
     @ManyToOne
     private User user;
 

@@ -1,8 +1,12 @@
 package com.example.activitidemo.controller;
 
 import com.example.activitidemo.model.AskLeave;
+import com.example.activitidemo.model.Record;
+import com.example.activitidemo.model.RecordDTO;
 import com.example.activitidemo.model.TypeEnum;
 import com.example.activitidemo.service.AskLeaveService;
+import com.example.activitidemo.service.RecordService;
+import com.example.activitidemo.utils.WordUtl;
 import lombok.RequiredArgsConstructor;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
@@ -13,6 +17,7 @@ import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +40,10 @@ public class AskLeaveController extends BaseController {
     private final TaskService taskService;
 
     private final HistoryService historyService;
+
+    private final RecordService recordService;
+
+    private final WordUtl wordUtl;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -60,16 +69,29 @@ public class AskLeaveController extends BaseController {
             list.add(map);
         }
         model.addAttribute("askLeaves", list);
+        model.addAttribute("user", getUser().getUsername());
         model.addAttribute("_type", TypeEnum.values());
         return "myAskLeaves";
     }
 
     @PostMapping("/add")
     @ResponseBody
-    public Object add(AskLeave askLeave) {
-        askLeave.setUser(getUser());
+    public void add(RecordDTO recordDTO) {
+        Record record = new Record();
+        BeanUtils.copyProperties(recordDTO, record);
+        Record save = recordService.save(record);
+//        askLeave.setUser(getUser());
+//        askLeave.setInTime(new Date());
+        AskLeave askLeave = new AskLeave();
+        Record recordTemp = recordService.save(record);
+        askLeave.setStatus(recordDTO.getStatus());
+        askLeave.setDescription(recordDTO.getReason());
         askLeave.setInTime(new Date());
-        return askLeaveService.save(askLeave);
+        askLeave.setRecordId(recordTemp.getId());
+        askLeave.setTitle("申请"+TypeEnum.valueOf(recordDTO.getType()).getValue());
+        askLeave.setType(recordDTO.getType());
+        askLeave.setUser(getUser());
+        askLeaveService.save(askLeave);
     }
 
     @PostMapping("/commit")
@@ -85,15 +107,15 @@ public class AskLeaveController extends BaseController {
         Task task = taskService.createTaskQuery().processInstanceId(instance.getId()).singleResult();
         // 增加批注
         Authentication.setAuthenticatedUserId(getUser().getUsername());
-        taskService.addComment(task.getId(), instance.getId(), "[提交请假]");
+        taskService.addComment(task.getId(), instance.getId(), "[提交申请]");
         // 自己任务自动完成
         variables.put("username", askLeave.getUser().getLeader().getUsername());
         taskService.complete(task.getId(), variables);
-        // 更改请假状态
+        // 更改申请状态
         askLeave.setStatus("提交");
+        askLeave.setTaskId(task.getId());
         askLeaveService.save(askLeave);
         return true;
     }
-
 
 }

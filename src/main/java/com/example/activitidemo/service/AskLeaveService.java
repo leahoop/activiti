@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by tomoya at 2019/4/22
@@ -30,4 +31,9 @@ public class AskLeaveService {
   public AskLeave findById(Integer id) {
     return askLeaveRepository.findById(id).orElse(null);
   }
+
+  public Optional<AskLeave> findByTaskId(String taskId) {
+    return askLeaveRepository.findByTaskId(taskId);
+  }
+
 }
