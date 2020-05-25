@@ -24,8 +24,8 @@ public class ExcelController {
     // 处理下载word文档
     @RequestMapping("/download")
     public String  download(HttpServletRequest request, HttpServletResponse response,
-                            @RequestParam int fileType) throws Exception {
-        return fileService.getFile(request, response, fileType);
+                            @RequestParam Integer fileType, Integer askId) throws Exception {
+        return fileService.getFile(request, response, fileType, askId);
     }
 
 

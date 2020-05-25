@@ -9,6 +9,6 @@
   </ol>
 
 <div>
-  Welcome to Activiti Demo!
+  <small>欢迎来到奖学金/助学金申请平台</small>
 </div>
 </@html>

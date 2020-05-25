@@ -6,7 +6,6 @@ import com.example.activitidemo.model.RecordDTO;
 import com.example.activitidemo.model.TypeEnum;
 import com.example.activitidemo.service.AskLeaveService;
 import com.example.activitidemo.service.RecordService;
-import com.example.activitidemo.utils.WordUtl;
 import lombok.RequiredArgsConstructor;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/askLeave")
@@ -43,12 +43,12 @@ public class AskLeaveController extends BaseController {
 
     private final RecordService recordService;
 
-    private final WordUtl wordUtl;
-
     @GetMapping("/list")
     public String list(Model model) {
         List<Map<String, Object>> list = new ArrayList<>();
-        List<AskLeave> askLeaves = askLeaveService.findByUser(getUser());
+        List<AskLeave> askLeaves = askLeaveService.findByUser(getUser())
+                .stream().sorted(Comparator.comparing(AskLeave::getInTime).reversed())
+                .collect(Collectors.toList());
         for (AskLeave askLeave : askLeaves) {
             Map<String, Object> map = new HashMap<>();
             map.put("askLeave", askLeave);

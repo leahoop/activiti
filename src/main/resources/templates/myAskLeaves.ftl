@@ -61,7 +61,8 @@
                             </table>
                         </div>
                         <#if item.askLeave.status == "通过">
-                            <button class="btn btn-xs btn-primary" onclick="download(${item.askLeave.type?c})">下载申请表
+                            <button class="btn btn-xs btn-primary" onclick="download('${item.askLeave.type?c}',
+                            '${item.askLeave.id?c}')">下载申请表
                             </button>
                         </#if>
                     </#if>
@@ -341,7 +342,7 @@
             });
         }
 
-        function download(i) {
+        function download(type, id) {
             var url = "/download";
             // 创建表单
             var formObj = document.createElement('form');
@@ -350,10 +351,14 @@
             formObj.style.display = 'none';
             // 创建input，主要是起传参作用
             var formItem = document.createElement('input');
-            formItem.value = i; // 传参的值
+            var formItem2 = document.createElement('input');
+            formItem.value = type; // 传参的值
             formItem.name = 'fileType'; // 传参的字段名
+            formItem2.value = id;
+            formItem2.name = 'askId';
             // 插入到网页中
             formObj.appendChild(formItem);
+            formObj.appendChild(formItem2);
             document.body.appendChild(formObj);
             formObj.submit(); // 发送请求
             document.body.removeChild(formObj); // 发送完清除掉

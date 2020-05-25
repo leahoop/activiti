@@ -1,7 +1,12 @@
 package com.example.activitidemo.service;
 
+import com.example.activitidemo.model.AskLeave;
+import com.example.activitidemo.model.Record;
 import com.example.activitidemo.model.TypeEnum;
+import com.example.activitidemo.utils.WordUtil;
 import lombok.Cleanup;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -11,41 +16,39 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class FileService {
 
-    public String getFile(HttpServletRequest request, HttpServletResponse response, int type) throws IOException {
-        String fileAddr;
-        String fileName;
+    private final WordUtil wordUtil;
 
+    private final AskLeaveService askLeaveService;
+
+    private final RecordService recordService;
+
+    public String getFile(HttpServletRequest request, HttpServletResponse response,
+                          Integer type, Integer askId) throws IOException {
         String userAgent = request.getHeader("User-Agent");
+        String fileAddr = null;
 
-        if(TypeEnum.SCHOLARSHIP.getCode() == type) {
-            fileAddr = this.getClass().getClassLoader().getResource("scholarship.doc").getPath();
-            fileName = TypeEnum.SCHOLARSHIP.getValue() + "申请表.doc";
-        } else {
-            fileAddr = this.getClass().getClassLoader().getResource("grant.doc").getPath();
-            fileName = TypeEnum.GRANT.getValue() + "申请表.doc";
+        AskLeave askLeave = askLeaveService.findById(askId);
+        if (askLeave != null) {
+            Optional<Record> byId = recordService.findById(askLeave.getRecordId());
+            if (byId.isPresent()) {
+                fileAddr = wordUtil.getTemplate(userAgent, type, byId.get());
+            }
         }
-
-        // 针对IE或者以IE为内核的浏览器：
-        if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
-            fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
-        } else {
-            // 非IE浏览器的处理：
-            fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-        }
-
         File f = ResourceUtils.getFile(fileAddr);
         try {
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+            response.setHeader("Content-disposition", "attachment; filename=" + f.getName());
             response.setContentLength((int) f.length());
             response.setContentType("application/octet-stream;charset=UTF-8");
             byte[] b = new byte[1024];
             int i = 0;
             @Cleanup
-            FileInputStream fis =new FileInputStream(f);
+            FileInputStream fis = new FileInputStream(f);
             ServletOutputStream out = response.getOutputStream();
             while ((i = fis.read(b)) > 0) {
                 out.write(b, 0, i);

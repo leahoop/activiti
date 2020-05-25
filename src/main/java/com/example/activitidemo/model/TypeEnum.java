@@ -1,7 +1,5 @@
 package com.example.activitidemo.model;
 
-import com.sun.deploy.cache.BaseLocalApplicationProperties;
-
 import java.util.HashMap;
 import java.util.Map;
 

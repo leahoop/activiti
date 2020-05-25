@@ -17,13 +17,16 @@
     <sequenceFlow id="_9" sourceRef="_4" targetRef="_3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass == "0"}]]></conditionExpression>
     </sequenceFlow>
+    <sequenceFlow id="_10" sourceRef="_3" targetRef="_7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass == "0"}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
     <bpmndi:BPMNPlane bpmnElement="Test">
       <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
-        <dc:Bounds height="32.0" width="32.0" x="490.0" y="160.0"/>
+        <dc:Bounds height="32.0" width="32.0" x="490.0" y="155.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+          <dc:Bounds height="32.0" width="32.0" x="1.0" y="-26.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3">
@@ -45,10 +48,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="_2" targetElement="_3">
-        <di:waypoint x="506.0" y="192.0"/>
+        <di:waypoint x="506.0" y="202.0"/>
         <di:waypoint x="506.0" y="235.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+          <dc:Bounds height="-1.0" width="0.0" x="0.0" y="-1.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_3" targetElement="_4">
@@ -69,6 +72,14 @@
         <di:waypoint x="560.0" y="407.5"/>
         <di:waypoint x="575.0" y="330.0"/>
         <di:waypoint x="555.0" y="262.5"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10" sourceElement="_3" targetElement="_7">
+        <di:waypoint x="455.0" y="262.5"/>
+        <di:waypoint x="410.0" y="400.0"/>
+        <di:waypoint x="485.0" y="521.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>

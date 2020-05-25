@@ -123,10 +123,8 @@ public class TaskController extends BaseController {
         instance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         AskLeave askLeave = askLeaveService.findById(askLeaveId);
         if (instance == null) {
-            // 更新请假状态
             askLeave.setStatus(StringUtils.isEmpty(giveup) ? "通过" : giveup);
             askLeaveService.save(askLeave);
-        }else {
             recordService.findById(askLeave.getRecordId()).ifPresent(e -> {
                 e.setAchievement(taskParams.getAchievement());
                 e.setReason(taskParams.getReason());
