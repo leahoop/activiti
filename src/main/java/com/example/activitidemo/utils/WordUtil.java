@@ -40,7 +40,7 @@ public class WordUtil {
             String outName;
             if (TypeEnum.SCHOLARSHIP.getCode().equals(type)) {
 //                fileAddr = this.getClass().getClassLoader().getResource("scholarship.ftl").getPath();
-                fileName = "scholarship.ftl";
+                fileName = "grant_use.ftl";
                 outName = record.getName() + TypeEnum.SCHOLARSHIP.getValue() + "申请表.doc";
             } else {
                 fileName = "grant_use.ftl";

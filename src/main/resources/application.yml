@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:log4jdbc:mysql://localhost:3306/work?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&nullCatalogMeansCurrent=true
     username: root
-    password: root
+    password: lu258723
     type: com.alibaba.druid.pool.DruidDataSource    # 使用阿里druid连接池
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     druid:
