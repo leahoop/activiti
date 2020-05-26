@@ -30,8 +30,6 @@ public class WordUtil {
             configuration.setDefaultEncoding("utf-8");
             String fileDirectory = ClassLoader.getSystemClassLoader()
                     .getResource("ftlTemplate").getPath();
-//            String temp = ClassLoader.getSystemClassLoader()
-//                    .getResource("file").getPath();
 
             /** 加载文件 **/
             configuration.setDirectoryForTemplateLoading(new File(fileDirectory));
@@ -39,8 +37,7 @@ public class WordUtil {
             String fileName;
             String outName;
             if (TypeEnum.SCHOLARSHIP.getCode().equals(type)) {
-//                fileAddr = this.getClass().getClassLoader().getResource("scholarship.ftl").getPath();
-                fileName = "grant_use.ftl";
+                fileName = "school.ftl";
                 outName = record.getName() + TypeEnum.SCHOLARSHIP.getValue() + "申请表.doc";
             } else {
                 fileName = "grant_use.ftl";
@@ -60,7 +57,7 @@ public class WordUtil {
 
             /** 指定输出word文件的路径 **/
             String outFilePath = ClassLoader.getSystemClassLoader()
-                    .getResource("file").getPath()+
+                    .getResource("file").getPath() +
                     "/" + outName;
             // 针对IE或者以IE为内核的浏览器：
             if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
@@ -98,7 +95,7 @@ public class WordUtil {
 
             if ("java.lang.Integer".equals(type.getTypeName())) {
                 Method m = record.getClass().getMethod("get" + name);
-                value =  m.invoke(record);    //调用getter方法获取属性值
+                value = m.invoke(record);    //调用getter方法获取属性值
 
             }
 
@@ -115,9 +112,10 @@ public class WordUtil {
     private static String toLowerCaseFirstOne(String s) {
         if (Character.isLowerCase(s.charAt(0))) {
             return s;
-        } else {
-            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
         }
+        return (new StringBuilder())
+                .append(Character.toLowerCase(s.charAt(0)))
+                .append(s.substring(1)).toString();
     }
 
 }
